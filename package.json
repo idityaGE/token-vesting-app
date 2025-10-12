@@ -1,5 +1,6 @@
 {
   "name": "token-vesting-app",
+  "type": "module",
   "scripts": {
     "anchor": "cd anchor && anchor",
     "anchor-build": "cd anchor && anchor build",
