@@ -1,11 +1,12 @@
 import {
   PublicKey,
   SystemProgram,
+  Keypair,
 } from "@solana/web3.js"
 import * as anchor from "@coral-xyz/anchor"
 import { ProgramTestContext, startAnchor, BanksClient } from "solana-bankrun"
 import { BankrunProvider } from "anchor-bankrun"
-import { createMint } from "@solana/spl-token"
+import { TOKEN_PROGRAM_ID } from "@solana/spl-token"
 
 import VestingIDL from "../target/idl/vesting.json"
 import { Vesting } from "../target/types/vesting"
@@ -51,13 +52,42 @@ describe("Vesting Program Tests", () => {
     banksClient = context.banksClient
     employer = provider.wallet.payer
 
-    mint = await createMint(
-      //@ts-ignore
-      banksClient,
-      employer,
-      employer.publicKey,
-      null,
-      2
+    // Create mint account manually for bankrun compatibility
+    const mintKeypair = Keypair.generate()
+    mint = mintKeypair.publicKey
+
+    const mintAccountData = Buffer.alloc(82)
+    // Mint account layout: 
+    // 0-36: mint_authority (Option<Pubkey>) - discriminator (4 bytes) + pubkey (32 bytes)
+    // 36-44: supply (u64)
+    // 44: decimals (u8)
+    // 45: is_initialized (bool)
+    // 46-82: freeze_authority (Option<Pubkey>)
+    
+    // Set mint authority present (1) and the employer's pubkey
+    mintAccountData.writeUInt32LE(1, 0)
+    employer.publicKey.toBuffer().copy(mintAccountData, 4)
+    
+    // Set supply to 0
+    mintAccountData.writeBigUInt64LE(BigInt(0), 36)
+    
+    // Set decimals to 2
+    mintAccountData.writeUInt8(2, 44)
+    
+    // Set is_initialized to true
+    mintAccountData.writeUInt8(1, 45)
+    
+    // Set freeze_authority to None (0)
+    mintAccountData.writeUInt32LE(0, 46)
+
+    context.setAccount(
+      mint,
+      {
+        lamports: 1_000_000_000,
+        data: mintAccountData,
+        owner: TOKEN_PROGRAM_ID,
+        executable: false
+      }
     )
 
     beneficiaryProvider = new BankrunProvider(context)
@@ -68,7 +98,7 @@ describe("Vesting Program Tests", () => {
     [vestingAccountKey] = PublicKey.findProgramAddressSync(
       [Buffer.from(company_name)],
       program.programId
-    ); 
+    );
 
     [treasuryTokenAccount] = PublicKey.findProgramAddressSync(
       [Buffer.from("vesting_treasury"), Buffer.from(company_name)],
@@ -86,5 +116,20 @@ describe("Vesting Program Tests", () => {
 
   })
 
+  it("Initialize Vesting Account", async () => {
+    const tx = await program.methods.initVesting(company_name)
+      .accounts({
+        mint: mint,
+        signer: employer.publicKey,
+        tokenProgram: TOKEN_PROGRAM_ID
+      })
+      .signers([employer])
+      .rpc({ commitment: 'confirmed' })
+
+    console.log("Your transaction signature", tx);
+    const vestingAccountData = await program.account.vestingAccount.fetch(vestingAccountKey, 'confirmed')
+    console.log("Vesting Account Data:", vestingAccountData)
+
+  })
 
 })
