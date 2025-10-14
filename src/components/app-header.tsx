@@ -21,9 +21,9 @@ export function AppHeader({ links = [] }: { links: { label: string; path: string
       <div className="mx-auto flex justify-between items-center">
         <div className="flex items-baseline gap-4">
           <Link className="text-xl hover:text-neutral-500 dark:hover:text-white" href="/">
-            <span>Tokenvestingapp</span>
+            <span>Token Vesting App</span>
           </Link>
-          <div className="hidden md:flex items-center">
+          <div className="hidden md:flex items-center ml-12">
             <ul className="flex gap-4 flex-nowrap items-center">
               {links.map(({ label, path }) => (
                 <li key={path}>

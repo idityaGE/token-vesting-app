@@ -12,7 +12,7 @@ use anchor_spl::{
     token_interface::{self, Mint, TokenAccount, TokenInterface, TransferChecked},
 };
 
-declare_id!("Count3AcZucFDPSFBAeHkQ6AvttieKUkyJ8HiQGhQwe");
+declare_id!("4GBnTiaskZnCW8ngvcmNZJKGQBzN95ZZwBPTSzRJrH8A");
 
 #[program]
 pub mod vesting {

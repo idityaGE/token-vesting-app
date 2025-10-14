@@ -15,7 +15,7 @@ export function getVestingProgramId(cluster: Cluster) {
   switch (cluster) {
     case 'devnet':
     case 'testnet':
-      return new PublicKey('Count3AcZucFDPSFBAeHkQ6AvttieKUkyJ8HiQGhQwe')
+      return new PublicKey('4GBnTiaskZnCW8ngvcmNZJKGQBzN95ZZwBPTSzRJrH8A')
     case 'mainnet-beta':
     default:
       return VESTING_PROGRAM_ID
