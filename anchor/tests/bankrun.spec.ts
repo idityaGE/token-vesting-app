@@ -155,7 +155,8 @@ describe("Vesting Program Tests", () => {
       .accounts({
         tokenProgram: TOKEN_PROGRAM_ID
       })
-      .rpc({ commitment: "confirmed" })
+      .signers([beneficiary])
+      .rpc({ commitment: "confirmed", skipPreflight: true })
 
     console.log("Claim Transaction: ", tx);
   })

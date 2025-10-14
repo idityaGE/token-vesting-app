@@ -181,7 +181,7 @@ export type Vesting = {
           ]
         },
         {
-          "name": "treasury",
+          "name": "treasuryTokenAccount",
           "writable": true,
           "relations": [
             "vestingAccount"
@@ -245,15 +245,15 @@ export type Vesting = {
           }
         },
         {
-          "name": "systemProgram",
-          "address": "11111111111111111111111111111111"
+          "name": "tokenProgram"
         },
         {
           "name": "associatedTokenProgram",
           "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
         },
         {
-          "name": "tokenProgram"
+          "name": "systemProgram",
+          "address": "11111111111111111111111111111111"
         }
       ],
       "args": [
@@ -419,7 +419,7 @@ export type Vesting = {
           ]
         },
         {
-          "name": "treasury",
+          "name": "treasuryTokenAccount",
           "relations": [
             "vestingAccount"
           ]
@@ -556,7 +556,7 @@ export type Vesting = {
             "type": "pubkey"
           },
           {
-            "name": "treasury",
+            "name": "treasuryTokenAccount",
             "type": "pubkey"
           },
           {

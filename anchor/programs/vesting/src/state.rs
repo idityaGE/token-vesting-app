@@ -7,7 +7,7 @@ pub struct VestingAccount {
     pub company_name: String,
     pub owner: Pubkey,
     pub mint: Pubkey,
-    pub treasury: Pubkey,
+    pub treasury_token_account: Pubkey,
     pub token_amount: u64,
     pub treasury_bump: u8,
     pub bump: u8,
