@@ -202,7 +202,7 @@ function EmployeeCard({
               <CoinsIcon className="h-3.5 w-3.5 text-muted-foreground" />
               <p className="text-xs font-medium">Total</p>
             </div>
-            <p className="text-sm font-semibold">
+            <p className="text-sm font-semibold ml-5">
               {employee.account.totalAmount.toString()}
             </p>
           </div>
@@ -211,7 +211,7 @@ function EmployeeCard({
               <CoinsIcon className="h-3.5 w-3.5 text-muted-foreground" />
               <p className="text-xs font-medium">Withdrawn</p>
             </div>
-            <p className="text-sm font-semibold">
+            <p className="text-sm font-semibold ml-5">
               {employee.account.totalWithdrawn.toString()}
             </p>
           </div>

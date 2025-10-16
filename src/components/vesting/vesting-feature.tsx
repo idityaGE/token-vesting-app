@@ -25,7 +25,9 @@ export default function VestingFeature() {
         </p>
         <VestingCreate />
       </AppHero>
-      <VestingList />
+      <div className="max-w-6xl mx-auto pb-16">
+        <VestingList />
+      </div>
     </div>
   ) : (
     <div className="max-w-4xl mx-auto">
